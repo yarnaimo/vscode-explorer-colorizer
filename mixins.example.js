@@ -1,7 +1,7 @@
 const { hsl, rgb } = require('./src/utils')
 
 module.exports = {
-    indentSize: 12, // ツリーのインデント ("workbench.tree.indent" で設定、デフォルト: 8)
+    indentSize: 8, // ツリーのインデント ("workbench.tree.indent" で設定、デフォルト: 8)
 
     alpha: {
         border: 1, // border の不透明度
