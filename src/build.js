@@ -7,7 +7,7 @@ const c = (n, border = false) => {
     return color ? color(border ? alpha.border : alpha.background) : transparent
 }
 
-const p = (n, offset = 0) => `${3 + offset + indentSize * n}px`
+const p = (n, offset = 0) => `${-indentSize + 15 + offset + indentSize * n}px`
 
 const cp = (cargs, pargs) => `${c(...cargs)} ${p(...pargs)}`
 
