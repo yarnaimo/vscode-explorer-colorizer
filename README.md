@@ -4,6 +4,10 @@ VSCode のエクスプローラをディレクトリの階層ごとに色分け�
 
 ![](screenshot.png)
 
+## Requirements
+
+-   Node.js (>= 12)
+
 ## Download & Build
 
 1.  `git clone https://github.com/yarnaimo/vscode-explorer-colorizer.git`
