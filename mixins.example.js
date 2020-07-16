@@ -4,18 +4,19 @@ module.exports = {
     indentSize: 10,
 
     alpha: {
-        border: 1, // border の不透明度
-        background: 0.06, // background の不透明度
+        directory: 0.55, // ディレクトリの不透明度
+        file: 0.12, // ファイルの不透明度
     },
-    colors: {
+    colors: [
         // 各階層の色、hsl() または rgb() で指定
-        1: null,
-        2: hsl(40, 75, 65),
-        3: hsl(170, 50, 65),
-        4: hsl(15, 55, 65),
-        5: hsl(70, 65, 45),
-        6: hsl(205, 55, 65),
-        7: hsl(340, 40, 65),
-        8: null,
-    },
+        null,
+        null,
+        hsl(35, 40, 65),
+        hsl(45, 80, 60),
+        hsl(65, 70, 50),
+        hsl(340, 45, 72),
+        hsl(160, 55, 70),
+        hsl(195, 60, 70),
+        null,
+    ],
 }

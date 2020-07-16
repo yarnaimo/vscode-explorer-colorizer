@@ -2,9 +2,9 @@ const { writeFileSync } = require('fs')
 const { indentSize, colors, alpha } = require('../mixins')
 const { transparent } = require('./utils')
 
-const c = (n, border = false) => {
+const c = (n, directory) => {
     const color = colors[n]
-    return color ? color(border ? alpha.border : alpha.background) : transparent
+    return color ? color(directory ? alpha.directory : alpha.file) : transparent
 }
 
 const p = (n, offset = 0) => `${-indentSize + 15 + offset + indentSize * n}px`
@@ -69,14 +69,6 @@ ${outer}${expanded} ${inner}::after {
 const arr = (length) => [...Array(length)].map((_, i) => i + 1)
 
 const lv = (n) => {
-    // const chunk = (_n) => [
-    //     cp([_n], [_n + 1]),
-    //     cp([null], [_n + 1]),
-    //     cp([null], [_n + 1, 3]),
-    //     cp([_n + 1, true], [_n + 1, 3]),
-    //     cp([_n + 1, true], [_n + 1, 4]),
-    //     cp([_n + 1], [_n + 1, 4]),
-    // ]
     const chunk = {
         bg: (_n) => [
             cp([_n], [_n + 1]),
@@ -84,62 +76,32 @@ const lv = (n) => {
             cp([null], [_n + 1, 3]),
             cp([_n + 1], [_n + 1, 3]),
         ],
-        border: (_n) => [
-            cp([null], [_n + 1, 3]),
-            cp([_n + 1, true], [_n + 1, 3]),
-            cp([_n + 1, true], [_n + 1, 4]),
-            cp([null], [_n + 1, 4]),
-        ],
     }
 
     const gDefaultOuter = {
         bg: arr(n - 1)
             .flatMap(chunk.bg)
             .join(', '),
-        border: arr(n - 1)
-            .flatMap(chunk.border)
-            .join(', '),
     }
 
     const gExpandedOuter = {
         bg: arr(n).flatMap(chunk.bg).slice(0, -2).join(', '),
-        border: arr(n).flatMap(chunk.border).slice(0, -4).join(', '),
     }
-
-    // const gxBefore = arr(n).flatMap(chunk).slice(0, -4).join(', ')
-
-    // const gxAfter = [cp(null, n + 1, true), cp(n + 1, n + 1, true)].join(', ')
 
     const sDefaultOuter = [
         gDefaultOuter.bg &&
             `${outerLv(n)}::before { ${gback(gDefaultOuter.bg)} }`,
-        gDefaultOuter.border &&
-            `${outerLv(n)}::after { ${gback(gDefaultOuter.border)} }`,
     ]
     const sExpandedOuter = [
         `${outerLv(n)}${expanded}::before { ${gback(gExpandedOuter.bg)} }`,
-        `${outerLv(n)}${expanded}::after { ${gback(gExpandedOuter.border)} }`,
     ]
     const sExpandedInner = [
         `${outerLv(n)}${expanded} ${inner}::before {
             left: ${p(n + 1, -4 + 3)};
             width: calc(100% - ${p(n + 1, -4 + 3)});
-            background: ${c(n + 1)};
-        }`,
-        `${outerLv(n)}${expanded} ${inner}::after {
-            left: ${p(n + 1, -4 + 3)};
-            width: calc(100% - ${p(n + 1, -4 + 3)});
-            border-left-color: ${c(n + 1, true)};
-            border-top-color: ${c(n + 1, true)};
+            background: ${c(n + 1, true)};
         }`,
     ]
-    // const sxAfter = `${outerLv(n)}${expanded}::after {
-    //     background: ${c(n + 1)};
-    //     left: ${p(n + 1, 3)};
-    //     width: calc(100% - ${p(n + 1, 3)});
-    //     border-left: solid 1px ${c(n + 1, true)};
-    //     border-top: solid 1px ${c(n + 1, true)};
-    // }`
 
     return [...sDefaultOuter, ...sExpandedOuter, ...sExpandedInner].join('')
 }
