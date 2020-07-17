@@ -29,16 +29,6 @@ ${outer}::before {
     height: 100%;
 }
 
-${outer}::after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
 ${outer}${expanded} ${inner}::before {
     content: "";
     display: block;
@@ -47,21 +37,6 @@ ${outer}${expanded} ${inner}::before {
     border-top-left-radius: 8px;
     top: 3px;
     height: calc(100% - 3px);
-}
-
-${outer}${expanded} ${inner}::after {
-    content: "";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    border-top-left-radius: 8px;
-    top: 3px;
-    height: calc(100% - 3px);
-
-    border-left-style: solid;
-    border-left-width: 1px;
-    border-top-style: solid;
-    border-top-width: 1px;
 }
 `
 }
