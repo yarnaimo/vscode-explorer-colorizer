@@ -2,12 +2,16 @@ const { writeFileSync } = require('fs')
 const { indentSize, colors, alpha } = require('../mixins')
 const { transparent } = require('./utils')
 
+const rColors = [null, null, ...colors, ...colors.slice(0, 2)]
+
 const c = (n, directory) => {
-    const color = colors[n]
-    return color ? color(directory ? alpha.directory : alpha.file) : transparent
+    const color = rColors[n]
+    return color
+        ? color(directory ? alpha.directory + 0.1 : alpha.directory - 0.1)
+        : transparent
 }
 
-const marginX = 5
+const marginX = 6
 const marginY = 4
 
 const p = (n, offset = 0) =>
@@ -49,15 +53,15 @@ const arr = (length) => [...Array(length)].map((_, i) => i + 1)
 
 const lv = (n) => {
     const chunk = (_n) => [
-        cp([_n, true], [_n + 1]),
+        cp([_n], [_n + 1]),
         cp([null], [_n + 1]),
         cp([null], [_n + 1, marginX]),
-        cp([_n + 1, true], [_n + 1, marginX]),
+        cp([_n + 1], [_n + 1, marginX]),
     ]
 
     const gDefaultOuter = arr(n - 1)
         .flatMap(chunk)
-        .concat(cp([n, true], [n + 1]), cp([null], [n + 1]))
+        .concat(cp([n], [n + 1]), cp([null], [n + 1]))
         .join(', ')
 
     const gExpandedOuter = arr(n).flatMap(chunk).slice(0, -2).join(', ')
@@ -80,7 +84,7 @@ const lv = (n) => {
 }
 
 const main = () => {
-    const str = [base(), ...arr(7).map((n) => lv(n))].join('')
+    const str = [base(), ...arr(rColors.length - 1).map((n) => lv(n))].join('')
     writeFileSync('main.css', str)
 }
 

@@ -4,7 +4,7 @@ VSCode のエクスプローラをディレクトリの階層ごとに色分け�
 
 ![](screenshot.png)
 
-## 📌 Update (2020/7/17)
+## 📌 Update (2020/7/18)
 
 `mixins.js` の形式が変わったので **Download & Build の 3 以降を再度実行**してください
 
