@@ -7,7 +7,11 @@ const c = (n, directory) => {
     return color ? color(directory ? alpha.directory : alpha.file) : transparent
 }
 
-const p = (n, offset = 0) => `${-indentSize + 15 + offset + indentSize * n}px`
+const marginX = 5
+const marginY = 4
+
+const p = (n, offset = 0) =>
+    `${-indentSize + (18 - marginX) + offset + indentSize * n}px`
 
 const cp = (cargs, pargs) => `${c(...cargs)} ${p(...pargs)}`
 
@@ -35,8 +39,8 @@ ${outer}${expanded} ${inner}::before {
     position: absolute;
     z-index: -1;
     border-top-left-radius: 8px;
-    top: 3px;
-    height: calc(100% - 3px);
+    top: ${marginY}px;
+    height: calc(100% - ${marginY}px);
 }
 `
 }
@@ -44,36 +48,30 @@ ${outer}${expanded} ${inner}::before {
 const arr = (length) => [...Array(length)].map((_, i) => i + 1)
 
 const lv = (n) => {
-    const chunk = {
-        bg: (_n) => [
-            cp([_n], [_n + 1]),
-            cp([null], [_n + 1]),
-            cp([null], [_n + 1, 3]),
-            cp([_n + 1], [_n + 1, 3]),
-        ],
-    }
+    const chunk = (_n) => [
+        cp([_n, true], [_n + 1]),
+        cp([null], [_n + 1]),
+        cp([null], [_n + 1, marginX]),
+        cp([_n + 1, true], [_n + 1, marginX]),
+    ]
 
-    const gDefaultOuter = {
-        bg: arr(n - 1)
-            .flatMap(chunk.bg)
-            .join(', '),
-    }
+    const gDefaultOuter = arr(n - 1)
+        .flatMap(chunk)
+        .concat(cp([n, true], [n + 1]), cp([null], [n + 1]))
+        .join(', ')
 
-    const gExpandedOuter = {
-        bg: arr(n).flatMap(chunk.bg).slice(0, -2).join(', '),
-    }
+    const gExpandedOuter = arr(n).flatMap(chunk).slice(0, -2).join(', ')
 
     const sDefaultOuter = [
-        gDefaultOuter.bg &&
-            `${outerLv(n)}::before { ${gback(gDefaultOuter.bg)} }`,
+        gDefaultOuter && `${outerLv(n)}::before { ${gback(gDefaultOuter)} }`,
     ]
     const sExpandedOuter = [
-        `${outerLv(n)}${expanded}::before { ${gback(gExpandedOuter.bg)} }`,
+        `${outerLv(n)}${expanded}::before { ${gback(gExpandedOuter)} }`,
     ]
     const sExpandedInner = [
         `${outerLv(n)}${expanded} ${inner}::before {
-            left: ${p(n + 1, -4 + 3)};
-            width: calc(100% - ${p(n + 1, -4 + 3)});
+            left: ${p(n + 1, -4 + marginX)};
+            width: calc(100% - ${p(n + 1, -4 + marginX)});
             background: ${c(n + 1, true)};
         }`,
     ]
