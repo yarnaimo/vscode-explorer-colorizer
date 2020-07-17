@@ -12,7 +12,9 @@ VSCode のエクスプローラをディレクトリの階層ごとに色分け�
 
 -   Node.js (>= 12)
 
-## Download & Build
+## 導入方法
+
+### Download & Build
 
 1.  `git clone https://github.com/yarnaimo/vscode-explorer-colorizer.git`
 2.  `cd vscode-explorer-colorizer`
@@ -20,7 +22,7 @@ VSCode のエクスプローラをディレクトリの階層ごとに色分け�
 4.  必要に応じて `mixins.js` をカスタマイズ
 5.  `yarn build` または `npm run build`
 
-## Install
+### Install
 
 1.  拡張機能「Custom CSS and JS Loader」をインストールする
 2.  settings.json に以下を追加
@@ -39,3 +41,16 @@ VSCode のエクスプローラをディレクトリの階層ごとに色分け�
 5.  VSCode を再起動する (管理者権限は不要)
 
 settings.json の `workbench.tree.indent` と、mixins.js の `indentSize` を変更すると、インデントサイズを 10px 以外にできます。(この 2 つは同じ値にしてください)
+
+### Override Theme
+
+focus/hover 時に色が隠れるのを防ぐため settings.json に以下を追加します。(色はカラーテーマに応じて変更してください)
+
+```
+"workbench.colorCustomizations": {
+    "list.activeSelectionBackground": "#00000010",
+    "list.inactiveSelectionBackground": "#00000010",
+    "list.hoverBackground": "#00000010",
+    "list.focusBackground": "#00000010"
+},
+```
